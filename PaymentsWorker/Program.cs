@@ -3,6 +3,8 @@ using PaymentsWorker.Consumers;
 
 var builder = Host.CreateApplicationBuilder(args);
 
+#region MassTransit (RabbitMQ)
+
 builder.Services.AddMassTransit(x =>
 {
     x.AddConsumer<OrderPlacedConsumer>();
@@ -19,14 +21,13 @@ builder.Services.AddMassTransit(x =>
             h.Password(password);
         });
 
-        var ordersPlacedQueue = Environment.GetEnvironmentVariable("ORDER_PLACED_NAME") ?? "orders-placed-queue";
+        var ordersPlacedQueue = Environment.GetEnvironmentVariable("ORDER_PLACED_QUEUE_NAME") ?? "orders-placed-queue";
 
-        cfg.ReceiveEndpoint(ordersPlacedQueue, e =>
-        {
-            e.ConfigureConsumer<OrderPlacedConsumer>(context);
-        });
+        cfg.ReceiveEndpoint(ordersPlacedQueue, e => e.ConfigureConsumer<OrderPlacedConsumer>(context));
     });
 });
+
+#endregion
 
 var host = builder.Build();
 host.Run();
