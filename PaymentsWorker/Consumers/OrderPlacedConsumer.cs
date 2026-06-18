@@ -14,8 +14,9 @@ namespace PaymentsWorker.Consumers
 
             var paymentResult = new PaymentProcessedEvent
             {
-                TransactionId = new Guid(), //aqui preciso ver como vai ficar
+                TransactionId = new Guid(),
                 UserId = message.UserId,
+                UserEmail = message.UserEmail,
                 GameId = message.GameId,
                 Status = paymentStatus
             };

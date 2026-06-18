@@ -5,17 +5,26 @@ var builder = Host.CreateApplicationBuilder(args);
 
 builder.Services.AddMassTransit(x =>
 {
-    x.AddConsumers(typeof(OrderPlacedConsumer).Assembly);
+    x.AddConsumer<OrderPlacedConsumer>();
 
     x.UsingRabbitMq((context, cfg) =>
     {
-        cfg.Host("rabbitmq", "/", h =>
+        var host = Environment.GetEnvironmentVariable("RABBITMQ_HOST") ?? "localhost";
+        var user = Environment.GetEnvironmentVariable("RABBITMQ_DEFAULT_USER") ?? "guest";
+        var password = Environment.GetEnvironmentVariable("RABBITMQ_DEFAULT_PASS") ?? "guest";
+
+        cfg.Host(host, "/", h =>
         {
-            h.Username("guest");
-            h.Password("guest");
+            h.Username(user);
+            h.Password(password);
         });
 
-        cfg.ConfigureEndpoints(context);
+        var ordersPlacedQueue = Environment.GetEnvironmentVariable("ORDER_PLACED_NAME") ?? "orders-placed-queue";
+
+        cfg.ReceiveEndpoint(ordersPlacedQueue, e =>
+        {
+            e.ConfigureConsumer<OrderPlacedConsumer>(context);
+        });
     });
 });
 
