@@ -11,6 +11,7 @@ FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["PaymentsWorker/PaymentsWorker.csproj", "PaymentsWorker/"]
+COPY ["Fcg.Contracts/Fcg.Contracts.csproj", "Fcg.Contracts/"]
 RUN dotnet restore "./PaymentsWorker/PaymentsWorker.csproj"
 COPY . .
 WORKDIR "/src/PaymentsWorker"
