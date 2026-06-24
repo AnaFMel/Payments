@@ -1,3 +1,4 @@
 <Solution>
+  <Project Path="Fcg.Contracts/Fcg.Contracts.csproj" Id="7d4293ab-d3d2-4af5-99ad-73b5c9beede2" />
   <Project Path="PaymentsWorker/PaymentsWorker.csproj" />
 </Solution>

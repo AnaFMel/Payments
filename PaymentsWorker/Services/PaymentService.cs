@@ -1,4 +1,4 @@
-﻿using PaymentsWorker.Contracts;
+﻿using Fcg.Contracts;
 
 namespace PaymentsWorker.Services
 {

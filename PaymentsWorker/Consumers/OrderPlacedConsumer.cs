@@ -1,5 +1,5 @@
-﻿using MassTransit;
-using PaymentsWorker.Contracts;
+﻿using Fcg.Contracts;
+using MassTransit;
 using PaymentsWorker.Services;
 
 namespace PaymentsWorker.Consumers

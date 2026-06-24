@@ -1,4 +1,4 @@
-﻿namespace PaymentsWorker.Contracts
+﻿namespace Fcg.Contracts
 {
     public class OrderPlacedEvent
     {
