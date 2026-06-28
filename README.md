@@ -4,7 +4,7 @@ Este projeto tem como objetivo receber mensagens referentes a adição de jogos 
 
 ## Estrutura do Projeto
 
-- **PaymentsWorker**:  Aplicação Console que consome mensagens da fila orders-placed-queue, simular um processo de pagamento e publica o retorno como mensagem na fila payments-queue.
+- **PaymentsWorker**:  Aplicação Console que consome mensagens da fila orders-placed-queue, simula um processo de pagamento e publica o retorno como mensagem na fila payments-queue.
 - **docker-compose.yml**: Configuração do RabbitMQ.
 
 ## Pré-requisitos
