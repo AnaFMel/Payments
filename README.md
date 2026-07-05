@@ -4,32 +4,8 @@ Este projeto tem como objetivo receber mensagens referentes a adição de jogos 
 
 ## Estrutura do Projeto
 
-- **PaymentsWorker**:  Aplicação Console que consome mensagens da fila orders-placed-queue, simula um processo de pagamento e publica o retorno como mensagem na fila payments-queue.
-- **docker-compose.yml**: Configuração do RabbitMQ.
-
-## Pré-requisitos
-
-- .NET 10 SDK
-- Docker e Docker Compose
-
-## Como executar
-
-### 1. Iniciar todos os serviços (RabbitMQ)
-```bash
-# Docker-compose
-docker-compose up -d
-```
-
-### 2. Executar o PaymentsWorker
-```bash
-cd PaymentsWorker
-dotnet run
-```
-
-### Acesso ao RabbitMQ Management
-- URL: http://localhost:15672
-- Usuário: guest
-- Senha: guest
+- **PaymentsWorker (Deployment)**:  Aplicação Console que consome mensagens da fila orders-placed-queue, simula um processo de pagamento e publica o retorno como mensagem na fila payments-queue.
+- **Configmap**: configurações relacionadas a fila orders-placed-queue.
 
 ## Tecnologias Utilizadas
 
