@@ -39,7 +39,7 @@ spec:
             - name: ORDER_PLACED_QUEUE_NAME
               valueFrom:
                 configMapKeyRef:
-                  name: app-config
+                  name: payments-worker-config
                   key: ORDER_PLACED_QUEUE_NAME
           resources:
             requests:
