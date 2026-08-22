@@ -23,6 +23,7 @@ namespace PaymentsWorker.Consumers
             var paymentResult = new PaymentProcessedEvent
             {
                 TransactionId = Guid.NewGuid(),
+                OrderId = message.Id,
                 UserId = message.UserId,
                 UserEmail = message.UserEmail,
                 GameId = message.GameId,
