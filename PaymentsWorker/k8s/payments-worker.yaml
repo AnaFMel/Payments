@@ -21,21 +21,10 @@ spec:
           env:
             - name: ASPNETCORE_ENVIRONMENT
               value: "Production"
-            - name: RABBITMQ_DEFAULT_USER
-              valueFrom:
-                secretKeyRef:
-                  name: app-secrets
-                  key: RABBITMQ_DEFAULT_USER
-            - name: RABBITMQ_DEFAULT_PASS
-              valueFrom:
-                secretKeyRef:
-                  name: app-secrets
-                  key: RABBITMQ_DEFAULT_PASS
-            - name: RABBITMQ_HOST
-              valueFrom:
-                configMapKeyRef:
-                  name: app-config
-                  key: RABBITMQ_HOST
+            
+            - name: AWS_ENDPOINT
+              value: "http://localstack:4566"
+            
             - name: ORDER_PLACED_QUEUE_NAME
               valueFrom:
                 configMapKeyRef:
