@@ -21,19 +21,36 @@ spec:
           env:
             - name: ASPNETCORE_ENVIRONMENT
               value: "Production"
-            
             - name: AWS_ENDPOINT
               value: "http://localstack:4566"
-            
+            - name: AWS_ACCESS_KEY_ID
+              value: "test"
+            - name: AWS_SECRET_ACCESS_KEY
+              value: "test"
+            - name: AWS_DEFAULT_REGION
+              valueFrom:
+                configMapKeyRef:
+                  name: payments-worker-config
+                  key: AWS_DEFAULT_REGION
             - name: ORDER_PLACED_QUEUE_NAME
               valueFrom:
                 configMapKeyRef:
                   name: payments-worker-config
                   key: ORDER_PLACED_QUEUE_NAME
+            - name: PAYMENTS_CATALOG_QUEUE_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: payments-worker-config
+                  key: PAYMENTS_CATALOG_QUEUE_NAME
+            - name: PAYMENTS_NOTIFICATION_QUEUE_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: payments-worker-config
+                  key: PAYMENTS_NOTIFICATION_QUEUE_NAME
           resources:
             requests:
               cpu: "100m"
-              memory: "256Mi"
+              memory: "128Mi"
             limits:
               cpu: "500m"
-              memory: "512Mi"
+              memory: "256Mi"
