@@ -10,4 +10,4 @@ Este projeto tem como objetivo receber mensagens referentes a adição de jogos 
 ## Tecnologias Utilizadas
 
 - **.NET 10**: Framework principal
-- **MassTransit.RabbitMQ 8.3.4**: Biblioteca para comunicação com RabbitMQ
+- **MassTransit.AmazonSQS 8.3.4**: Biblioteca para abstração da comunicação com AmazonSQS
