@@ -4,4 +4,6 @@ metadata:
   name: payments-worker-config
 data:
   ORDER_PLACED_QUEUE_NAME: "orders-placed-queue"
-
+  PAYMENTS_CATALOG_QUEUE_NAME: "payments-1-queue"
+  PAYMENTS_NOTIFICATION_QUEUE_NAME: "payments-2-queue"
+  AWS_DEFAULT_REGION: "us-east-1"
