@@ -14,39 +14,41 @@ spec:
       labels:
         app: payments-worker
     spec:
+      imagePullSecrets:
+        - name: acr-secret
       containers:
         - name: payments-worker
-          image: anafmel/paymentsworker:latest
+          image: fiapcloudgames.azurecr.io/payment-worker:v1
           imagePullPolicy: Always
           env:
             - name: ASPNETCORE_ENVIRONMENT
               value: "Production"
-            - name: AWS_ENDPOINT
-              value: "http://host.docker.internal:4566"
+
             - name: AWS_ACCESS_KEY_ID
-              value: "test"
+              valueFrom:
+                secretKeyRef:
+                  name: app-secrets
+                  key: AWS_ACCESS_KEY_ID
             - name: AWS_SECRET_ACCESS_KEY
-              value: "test"
-            - name: AWS_DEFAULT_REGION
+              valueFrom:
+                secretKeyRef:
+                  name: app-secrets
+                  key: AWS_SECRET_ACCESS_KEY
+            - name: PAYMENTS_TOPIC
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: PAYMENTS_TOPIC
+            - name: ORDERS_TOPIC
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: ORDERS_TOPIC
+            - name: PAYMENT_SUBSCRIPTION
               valueFrom:
                 configMapKeyRef:
                   name: payments-worker-config
-                  key: AWS_DEFAULT_REGION
-            - name: ORDER_PLACED_QUEUE_NAME
-              valueFrom:
-                configMapKeyRef:
-                  name: payments-worker-config
-                  key: ORDER_PLACED_QUEUE_NAME
-            - name: PAYMENTS_CATALOG_QUEUE_NAME
-              valueFrom:
-                configMapKeyRef:
-                  name: payments-worker-config
-                  key: PAYMENTS_CATALOG_QUEUE_NAME
-            - name: PAYMENTS_NOTIFICATION_QUEUE_NAME
-              valueFrom:
-                configMapKeyRef:
-                  name: payments-worker-config
-                  key: PAYMENTS_NOTIFICATION_QUEUE_NAME
+                  key: PAYMENT_SUBSCRIPTION
           resources:
             requests:
               cpu: "100m"

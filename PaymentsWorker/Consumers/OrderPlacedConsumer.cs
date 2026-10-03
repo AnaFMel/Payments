@@ -6,15 +6,13 @@ namespace PaymentsWorker.Consumers
 {
     public class OrderPlacedConsumer : IConsumer<OrderPlacedEvent>
     {
+        private readonly IPublishEndpoint _publishEndpoint;
         private readonly ILogger<OrderPlacedEvent> _logger;
-        private readonly string _queueCatalogName;
-        private readonly string _queueNotificationsName;
 
-        public OrderPlacedConsumer(ILogger<OrderPlacedEvent> logger, IConfiguration configuration)
+        public OrderPlacedConsumer(IPublishEndpoint publishEndpoint, ILogger<OrderPlacedEvent> logger)
         {
+            _publishEndpoint = publishEndpoint;
             _logger = logger;
-            _queueCatalogName = configuration["PAYMENTS_CATALOG_QUEUE_NAME"] ?? "payments-1-queue";
-            _queueNotificationsName = configuration["PAYMENTS_NOTIFICATION_QUEUE_NAME"] ?? "payments-2-queue";
         }
 
         public async Task Consume(ConsumeContext<OrderPlacedEvent> context)
@@ -27,26 +25,11 @@ namespace PaymentsWorker.Consumers
 
             _logger.LogInformation($"Pagamento processado com sucesso! Resultado: {paymentStatus}");
 
-            var paymentResult = new PaymentProcessedEvent
-            {
-                TransactionId = Guid.NewGuid(),
-                OrderId = message.Id,
-                UserId = message.UserId,
-                UserEmail = message.UserEmail,
-                GameId = message.GameId,
-                Status = paymentStatus
-            };
+            var paymentResult = new PaymentProcessedEvent(Guid.NewGuid(), message.Id, message.UserId, message.UserEmail, message.GameId, paymentStatus);
 
-            var sendEndpointCatalog = await context.GetSendEndpoint(new Uri($"queue:{_queueCatalogName}"));
-            await sendEndpointCatalog.Send(paymentResult);
+            await _publishEndpoint.Publish(paymentResult);
 
-            _logger.LogInformation($"Evento 'PaymentProcessedEvent' enviado com sucesso para a fila {_queueCatalogName}!");
-
-
-            var sendEndpointNotification = await context.GetSendEndpoint(new Uri($"queue:{_queueNotificationsName}"));
-            await sendEndpointNotification.Send(paymentResult);
-
-            _logger.LogInformation($"Evento 'PaymentProcessedEvent' enviado com sucesso para a fila {_queueNotificationsName}!");
+            _logger.LogInformation($"Evento 'PaymentProcessedEvent' enviado com sucesso para o tópico.");
         }
     }
 }
