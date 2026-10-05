@@ -18,37 +18,53 @@ spec:
         - name: acr-secret
       containers:
         - name: payments-worker
-          image: fiapcloudgames.azurecr.io/payment-worker:v1
+          image: fcgpostech.azurecr.io/payment-worker:v1
           imagePullPolicy: Always
           env:
             - name: ASPNETCORE_ENVIRONMENT
-              value: "Production"
+              value: "Production"          
 
-            - name: AWS_ACCESS_KEY_ID
-              valueFrom:
-                secretKeyRef:
-                  name: app-secrets
-                  key: AWS_ACCESS_KEY_ID
-            - name: AWS_SECRET_ACCESS_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: app-secrets
-                  key: AWS_SECRET_ACCESS_KEY
             - name: PAYMENTS_TOPIC
               valueFrom:
                 configMapKeyRef:
                   name: app-config
                   key: PAYMENTS_TOPIC
+
             - name: ORDERS_TOPIC
               valueFrom:
                 configMapKeyRef:
                   name: app-config
                   key: ORDERS_TOPIC
+
             - name: PAYMENT_SUBSCRIPTION
               valueFrom:
                 configMapKeyRef:
                   name: payments-worker-config
                   key: PAYMENT_SUBSCRIPTION
+
+            - name: KeyVaultUri
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: KeyVaultUri
+
+            - name: AZURE_TENANT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: app-secrets
+                  key: AZURE_TENANT_ID
+
+            - name: AZURE_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: app-secrets
+                  key: AZURE_CLIENT_ID
+
+            - name: AZURE_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: app-secrets
+                  key: AZURE_CLIENT_SECRET
           resources:
             requests:
               cpu: "100m"
