@@ -53,14 +53,14 @@ jobs:
         run: |
           az acr login --name fcgpostech
 
-      # 3. Build & Push da Imagem do Payments.Worker
+      # 3. Build & Push da Imagem do PaymentWorker
       - name: Build and Push PaymentsWorker Docker Image
         run: |
           REGISTRY_URL=fcgpostech.azurecr.io
           # ATENÇÃO: Confirme se a pasta é PaymentsWorker/Dockerfile ou Payments.Worker/Dockerfile
-          docker build -f PaymentsWorker/Dockerfile -t $REGISTRY_URL/payments-worker:${{ github.sha }} -t $REGISTRY_URL/payments-worker:latest .
-          docker push $REGISTRY_URL/payments-worker:${{ github.sha }}
-          docker push $REGISTRY_URL/payments-worker:latest
+          docker build -f PaymentsWorker/Dockerfile -t $REGISTRY_URL/payment-worker:${{ github.sha }} -t $REGISTRY_URL/payment-worker:latest .
+          docker push $REGISTRY_URL/payment-worker:${{ github.sha }}
+          docker push $REGISTRY_URL/payment-worker:latest
 
       # =========================================================================
       # ETAPAS DO AKS COMENTADAS PARA EVITAR CUSTOS ENQUANTO O CLUSTER ESTÁ DESLIGADO
@@ -76,5 +76,5 @@ jobs:
       # - name: Deploy PaymentsWorker to K8s
       #   run: |
       #     REGISTRY_URL=fcgpostech.azurecr.io
-      #     kubectl set image deployment/payments-worker payments-worker=$REGISTRY_URL/payments-worker:${{ github.sha }}
+      #     kubectl set image deployment/payments-worker payment-worker=$REGISTRY_URL/payment-worker:${{ github.sha }}
       #     kubectl rollout status deployment/payments-worker --timeout=120s
