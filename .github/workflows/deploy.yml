@@ -73,5 +73,5 @@ jobs:
       - name: Deploy PaymentsWorker to K8s
         run: |
           REGISTRY_URL=fiapcg.azurecr.io
-          kubectl set image deployment/payment-worker payment-worker=$REGISTRY_URL/payment-worker:${{ github.sha }}
-          kubectl rollout status deployment/payment-worker --timeout=120s
+          kubectl set image deployment/payments-worker payment-worker=$REGISTRY_URL/payment-worker:${{ github.sha }}
+          kubectl rollout status deployment/payments-worker --timeout=120s
