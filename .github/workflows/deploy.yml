@@ -51,12 +51,12 @@ jobs:
       # 2. Login no ACR
       - name: Login to Azure Container Registry (ACR)
         run: |
-          az acr login --name fcgpostech
+          az acr login --name fiapcg
 
       # 3. Build & Push da Imagem do PaymentWorker
       - name: Build and Push PaymentsWorker Docker Image
         run: |
-          REGISTRY_URL=fcgpostech.azurecr.io
+          REGISTRY_URL=fiapcg.azurecr.io
           # ATENÇÃO: Confirme se a pasta é PaymentsWorker/Dockerfile ou Payments.Worker/Dockerfile
           docker build -f PaymentsWorker/Dockerfile -t $REGISTRY_URL/payment-worker:${{ github.sha }} -t $REGISTRY_URL/payment-worker:latest .
           docker push $REGISTRY_URL/payment-worker:${{ github.sha }}
@@ -75,6 +75,6 @@ jobs:
       # 5. Deploy do Worker no Kubernetes
       # - name: Deploy PaymentsWorker to K8s
       #   run: |
-      #     REGISTRY_URL=fcgpostech.azurecr.io
+      #     REGISTRY_URL=fiapcg.azurecr.io
       #     kubectl set image deployment/payments-worker payment-worker=$REGISTRY_URL/payment-worker:${{ github.sha }}
       #     kubectl rollout status deployment/payments-worker --timeout=120s

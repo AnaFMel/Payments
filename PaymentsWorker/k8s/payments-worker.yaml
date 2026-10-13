@@ -18,7 +18,7 @@ spec:
         - name: acr-secret
       containers:
         - name: payments-worker
-          image: fcgpostech.azurecr.io/payment-worker:v1
+          image: fiapcg.azurecr.io/payment-worker:v1
           imagePullPolicy: Always
           env:
             - name: ASPNETCORE_ENVIRONMENT
@@ -67,8 +67,8 @@ spec:
                   key: AZURE_CLIENT_SECRET
           resources:
             requests:
-              cpu: "100m"
-              memory: "128Mi"
+              cpu: "50m"
+              memory: "64Mi"
             limits:
-              cpu: "500m"
+              cpu: "100m"
               memory: "256Mi"
