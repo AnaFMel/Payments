@@ -62,19 +62,16 @@ jobs:
           docker push $REGISTRY_URL/payment-worker:${{ github.sha }}
           docker push $REGISTRY_URL/payment-worker:latest
 
-      # =========================================================================
-      # ETAPAS DO AKS COMENTADAS PARA EVITAR CUSTOS ENQUANTO O CLUSTER ESTÁ DESLIGADO
-      # =========================================================================   
       # 4. Configurar contexto do AKS
-      # - name: Set AKS Context
-      #   uses: azure/aks-set-context@v3
-      #   with:
-      #     resource-group: ${{ secrets.AZURE_RESOURCE_GROUP }}
-      #     cluster-name: ${{ secrets.AKS_CLUSTER_NAME }}
+      - name: Set AKS Context
+        uses: azure/aks-set-context@v3
+        with:
+          resource-group: ${{ secrets.AZURE_RESOURCE_GROUP }}
+          cluster-name: ${{ secrets.AKS_CLUSTER_NAME }}
 
       # 5. Deploy do Worker no Kubernetes
-      # - name: Deploy PaymentsWorker to K8s
-      #   run: |
-      #     REGISTRY_URL=fiapcg.azurecr.io
-      #     kubectl set image deployment/payments-worker payment-worker=$REGISTRY_URL/payment-worker:${{ github.sha }}
-      #     kubectl rollout status deployment/payments-worker --timeout=120s
+      - name: Deploy PaymentsWorker to K8s
+        run: |
+          REGISTRY_URL=fiapcg.azurecr.io
+          kubectl set image deployment/payment-worker payment-worker=$REGISTRY_URL/payment-worker:${{ github.sha }}
+          kubectl rollout status deployment/payment-worker --timeout=120s
