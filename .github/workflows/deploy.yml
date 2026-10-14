@@ -69,9 +69,16 @@ jobs:
           resource-group: ${{ secrets.AZURE_RESOURCE_GROUP }}
           cluster-name: ${{ secrets.AKS_CLUSTER_NAME }}
 
-      # 5. Deploy do Worker no Kubernetes (Cria ou Atualiza automaticamente)
+      # 5. Deploy do Worker no Kubernetes
       - name: Deploy PaymentsWorker to K8s
         run: |
-          REGISTRY_URL=fiapcg.azurecr.io     
-          kubectl apply -f k8s/
+          REGISTRY_URL=fiapcg.azurecr.io
+          
+          # Atualiza a tag da imagem dinamicamente no arquivo YAML com o hash do commit atual
+          sed -i "s|image: .*payment-worker:.*|image: $REGISTRY_URL/payment-worker:${{ github.sha }}|g" PaymentsWorker/k8s/payments-worker.yaml
+          
+          # Aplica os arquivos da pasta (ConfigMap e Deployment)
+          kubectl apply -f PaymentsWorker/k8s/
+          
+          # Acompanha o estado do rollout
           kubectl rollout status deployment/payments-worker --timeout=120s
