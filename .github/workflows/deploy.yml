@@ -69,9 +69,9 @@ jobs:
           resource-group: ${{ secrets.AZURE_RESOURCE_GROUP }}
           cluster-name: ${{ secrets.AKS_CLUSTER_NAME }}
 
-      # 5. Deploy do Worker no Kubernetes
+      # 5. Deploy do Worker no Kubernetes (Cria ou Atualiza automaticamente)
       - name: Deploy PaymentsWorker to K8s
         run: |
-          REGISTRY_URL=fiapcg.azurecr.io
-          kubectl set image deployment/payments-worker payment-worker=$REGISTRY_URL/payment-worker:${{ github.sha }}
+          REGISTRY_URL=fiapcg.azurecr.io     
+          kubectl apply -f k8s/
           kubectl rollout status deployment/payments-worker --timeout=120s
