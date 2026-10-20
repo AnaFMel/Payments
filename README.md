@@ -4,10 +4,12 @@ Este projeto tem como objetivo receber mensagens referentes a adição de jogos 
 
 ## Estrutura do Projeto
 
-- **PaymentsWorker (Deployment)**:  Aplicação Console que consome mensagens da fila `orders-placed-queue`, simula um processo de pagamento e publica o retorno como mensagem na fila `payments-queue`.
-- **Configmap**: configurações relacionadas a fila `orders-placed-queue`.
+- **PaymentsWorker (Deployment)**:  Aplicação Console que consome mensagens do tópico `orders-topic`, simula um processo de pagamento e publica o retorno como mensagem no tópico `payments-topic`.
+- **Payments.Tests**: Testes unitários
 
 ## Tecnologias Utilizadas
 
 - **.NET 10**: Framework principal
-- **MassTransit.AmazonSQS 8.3.4**: Biblioteca para abstração da comunicação com AmazonSQS
+- **Azure.Extensions.AspNetCore.Configuration.Secrets 1.5.2**: Biblioteca para obtenção de segredos do chave de cofres na Azure Key Vault
+- **Azure.Identity 1.21.0**: Biblioteca para autenticar nos serviços da Azure usando conta de Serviço (Microsoft Entrada ID)
+- **MassTransit.Azure.ServiceBus.Core 8.3.4**: Biblioteca para abstração de comunicação com Azure Bus Service
