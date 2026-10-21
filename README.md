@@ -5,7 +5,7 @@ Este projeto tem como objetivo receber mensagens referentes a adição de jogos 
 ## Estrutura do Projeto
 
 - **PaymentsWorker (Deployment)**:  Aplicação Console que consome mensagens do tópico `orders-topic`, simula um processo de pagamento e publica o retorno como mensagem no tópico `payments-topic`.
-- **Payments.Tests**: Testes unitários
+- **Payments.Tests**: Testes unitários básicos para o worker.
 
 ## Tecnologias Utilizadas
 
